@@ -217,10 +217,10 @@ module JotPDF
 
     def self.write(io, &block)
       JotPDF::Document.write(io) do
-        load_font "./NotoSansJP-Regular.ttf"
-        load_font "./NotoSansJP-Bold.ttf"
-        load_font "./OverpassMono-Regular.ttf"
-        load_font "./OverpassMono-Bold.ttf"
+        load_font "#{DATADIR}/NotoSansJP-Regular.ttf"
+        load_font "#{DATADIR}/NotoSansJP-Bold.ttf"
+        load_font "#{DATADIR}/OverpassMono-Regular.ttf"
+        load_font "#{DATADIR}/OverpassMono-Bold.ttf"
         default_font "NotoSansJP-Regular"
 
         SlideContext.new(self).dsl(&block)

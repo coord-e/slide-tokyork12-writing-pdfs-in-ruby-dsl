@@ -3,10 +3,10 @@
 require "jot_pdf/tokyork12"
 require "chunky_png"
 
-icon_image = ChunkyPNG::Image.from_file("coord_e_small.png")
-hello_pdf_screenshot_image = ChunkyPNG::Image.from_file("hello_pdf_screenshot.png")
-page_pdf_screenshot_image = ChunkyPNG::Image.from_file("page_pdf_screenshot.png")
-ruby_image = ChunkyPNG::Image.from_file("ruby.png")
+icon_image = ChunkyPNG::Image.from_file("#{JotPDF::Tokyork12::DATADIR}/coord_e.png")
+hello_pdf_screenshot_image = ChunkyPNG::Image.from_file("#{JotPDF::Tokyork12::DATADIR}/hello_pdf_screenshot.png")
+page_pdf_screenshot_image = ChunkyPNG::Image.from_file("#{JotPDF::Tokyork12::DATADIR}/page_pdf_screenshot.png")
+ruby_image = ChunkyPNG::Image.from_file("#{JotPDF::Tokyork12::DATADIR}/ruby.png")
 
 minimal_pdf = <<~PDF
   %PDF-1.3
