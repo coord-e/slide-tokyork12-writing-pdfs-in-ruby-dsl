@@ -1,0 +1,62 @@
+GIT
+  remote: https://github.com/coord-e/jot_pdf.git
+  revision: 47c76c640d6a3c611602e30056e90c62b09fa345
+  specs:
+    jot_pdf (0.1.0)
+      docile (~> 1.0)
+      ttfunk (~> 1.0)
+
+PATH
+  remote: jot_pdf-tokyork12
+  specs:
+    jot_pdf-tokyork12 (0.1.0)
+      jot_pdf (= 0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.2)
+    chunky_png (1.4.0)
+    docile (1.4.1)
+    json (2.9.1)
+    language_server-protocol (3.17.0.3)
+    parallel (1.26.3)
+    parser (3.3.6.0)
+      ast (~> 2.4.1)
+      racc
+    racc (1.8.1)
+    rainbow (3.1.1)
+    rake (13.2.1)
+    regexp_parser (2.10.0)
+    rubocop (1.70.0)
+      json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
+      parallel (~> 1.10)
+      parser (>= 3.3.0.2)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 2.9.3, < 3.0)
+      rubocop-ast (>= 1.36.2, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 4.0)
+    rubocop-ast (1.37.0)
+      parser (>= 3.3.1.0)
+    ruby-progressbar (1.13.0)
+    ttfunk (1.7.0)
+    unicode-display_width (3.1.4)
+      unicode-emoji (~> 4.0, >= 4.0.4)
+    unicode-emoji (4.0.4)
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  chunky_png
+  jot_pdf (= 0.1.0)!
+  jot_pdf-tokyork12!
+  rake
+  rubocop
+  ttfunk (= 1.7.0)
+
+BUNDLED WITH
+   2.5.11
