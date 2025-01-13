@@ -25,3 +25,6 @@ jobs:
         bundler-cache: true
     - name: Run the default task
       run: bundle exec rake
+    - uses: actions/upload-artifact@v4
+      with:
+        path: '*.pdf'
