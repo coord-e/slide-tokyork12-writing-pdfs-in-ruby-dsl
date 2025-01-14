@@ -56,6 +56,10 @@ module JotPDF
           end
           Style.new(token_types: tts + token_types)
         end
+
+        def highlight(pat)
+          self.and(pat => { color: 0xe06666, bold: true })
+        end
       end
 
       Plain = Style.new(token_types: [])

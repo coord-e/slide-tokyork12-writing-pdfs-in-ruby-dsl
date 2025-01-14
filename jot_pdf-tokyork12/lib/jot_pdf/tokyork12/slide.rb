@@ -19,10 +19,10 @@ module JotPDF
       end
 
       # TODO: move these defaults to ContentContext
-      def list(x: 66, y: 250, size: 20, line_height: nil, &block)
+      def list(x: 66, y: 250, size: 20, line_height: nil, color: 0x000000, &block)
         line_height ||= size + 10
         @ctx.dsl do
-          color 0x000000
+          color color
           text x:, y:, size:, line_height: do
             ListContext.new(self).dsl(&block)
           end
@@ -34,7 +34,6 @@ module JotPDF
       def itemheader(text = nil, &block)
         raw do
           move x: -16, y: 0
-          color 0x000000
           font "NotoSansJP-Regular"
           show text if text
           dsl(&block) if block
@@ -50,7 +49,6 @@ module JotPDF
           stroke_width 2
           path [@ctx.base_x - 16, y], [@ctx.base_x - 8, y]
           stroke
-          color 0x000000
           font "NotoSansJP-Regular"
           show text if text
           dsl(&block) if block

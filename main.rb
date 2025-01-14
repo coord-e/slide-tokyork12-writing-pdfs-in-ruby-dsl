@@ -45,13 +45,7 @@ content do
   list do
     item "Software Engineer (Site Reliability) @ Cookpad"
     item "仕事で書くのは .tf, .yaml, .rb, .rs"
-    item "Ruby 歴 === 社歴 === 3年~"
-    itembreak
-    item do
-      show "最近の Ruby 暮らし: "
-      linebreak factor: 0.9
-      color 0x00b894; show "https://hondana.coord-e.dev/"
-    end
+    item "Ruby 歴はだいたい 3 年ぐらい"
   end
   raw do
     image "Icon", x: 500, y: 80, width: icon_image.width * 0.3, height: icon_image.height * 0.3
@@ -76,11 +70,27 @@ empty do
   end
 end
 
+code do
+  content minimal_pdf, style: JotPDF::Tokyork12::Highlighter::Plain, size: 17, line_height: 16.5, x: 25, y: 370
+  raw do
+    stroke_color 0xe06666
+    stroke_width 3
+    rect x: 20, y: 300, width: 665, height: 72
+    stroke
+  end
+end
+
 content do
   title "オブジェクトの構文"
-  list do
+  code_block <<~PDF, style: JotPDF::Tokyork12::Highlighter::PDF
+    1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
+    2 0 obj << /Type /Pages /Kids [ 3 0 R ] /Count 1 >> endobj
+    3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [ 0 0 720 405 ]
+      /Resources 4 0 R /Contents 5 0 R >> endobj
+  PDF
+  list y: 150 do
     item { show "名前:  "; font "OverpassMono-Regular"; show "/Name" }
-    item { show "辞書:  "; font "OverpassMono-Regular"; show "<< /Key /Value >>" }
+    item { show "辞書:  "; font "OverpassMono-Regular"; show "<< /Key \#{object} >>" }
     item { show "定義:  "; font "OverpassMono-Regular"; show "1 0 obj \#{object}" }
     item { show "参照:  "; font "OverpassMono-Regular"; show "1 0 R" }
   end
@@ -88,13 +98,11 @@ end
 
 content do
   title "ドキュメントの構造"
-  code_block <<~PDF, style: JotPDF::Tokyork12::Highlighter::PDF, size: 16, line_height: 18
+  code_block <<~PDF, style: JotPDF::Tokyork12::Highlighter::PDF
     1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
     2 0 obj << /Type /Pages /Kids [ 3 0 R ] /Count 1 >> endobj
     3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [ 0 0 720 405 ]
       /Resources 4 0 R /Contents 5 0 R >> endobj
-    4 0 obj << /Font << /F1 << /Type /Font /Subtype /Type1
-      /BaseFont /Helvetica >> >> >> endobj
   PDF
   raw do
     color 0xffffff
@@ -129,7 +137,7 @@ content do
     fill
 
     color 0x000000
-    path [328, 72, 392, 72]
+    path [328, 72], [392, 72]
     stroke
     path [328, 72], [338, 64], [338, 80]
     fill
@@ -160,6 +168,31 @@ content do
     color 0x000000
     text "コンテンツ\nストリーム", x: 567, y: 82, size: 16
   end
+end
+
+code do
+  content minimal_pdf, style: JotPDF::Tokyork12::Highlighter::PDF, size: 17, line_height: 16.5, x: 25, y: 370
+  raw do
+    stroke_color 0xe06666
+    stroke_width 3
+    rect x: 20, y: 185, width: 500, height: 87
+    stroke
+  end
+end
+
+content do
+  title "コンテンツストリーム"
+  code_block <<~PDF, style: JotPDF::Tokyork12::Highlighter::PDF, size: 20
+    5 0 obj << /Length 46 >>
+    stream
+    BT
+    /F1 60 Tf
+    190 180 Td
+    (Hello, World!) Tj
+    ET
+    endstream
+    endobj
+  PDF
 end
 
 content do
@@ -218,13 +251,19 @@ end
 
 section_header do
   title "人間が PDF を書くのは難しい", font: "NotoSansJP-Bold"
+  raw do
+    color 0x000000
+    path [90, 190], [170, 190]
+    stroke_width 3
+    stroke
+  end
 end
 
 section_header do
   title "が PDF を書くのは？", x_adjust: 40, font: "NotoSansJP-Bold"
   list x: 200, y: 100, size: 15, line_height: 20 do
     itemheader "ゲーム性を出すためのレギュレーション:"
-    item "出力した PDF が Adobe Acrobat Reader で開ける"
+    item "出力した PDF が Adobe Acrobat Reader で読める"
     item "消費メモリが書くドキュメントの大きさに依存しない\n（ストリーミング）"
   end
   raw do
@@ -270,6 +309,10 @@ code do
       @io << " endobj"
     end
   RUBY
+  list x: 400, y: 150, size: 25, color: 0xffffff do
+    item "データを受け取る？"
+    item "コールバック関数？"
+  end
 end
 
 code do
@@ -280,6 +323,9 @@ code do
       @io << " endobj"
     end
   RUBY
+  list x: 400, y: 150, size: 25, color: 0xffffff do
+    item "Ruby にはブロックがある"
+  end
 end
 
 code do
@@ -312,7 +358,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', size: 18, style: JotPDF::Tokyork12::Highlighter::Ruby.and(/instance_exec\(&block\)/ => { color: 0xe06666, bold: true })
+  content <<~'RUBY', size: 18, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/instance_exec\(&block\)/)
     class PDFWriter
       def initialize(io)
         @io = OffsetIO.new(io)
@@ -331,7 +377,40 @@ code do
 end
 
 code do
-  content <<~'RUBY', size: 16.5, line_height: 16, style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/obj { str "invalid!" }/)
+    PDF($stdout) do
+      obj do
+        dict do
+          entry("Type") { name "Catalog" }
+        end
+        obj { str "invalid!" }
+      end
+    end
+  RUBY
+end
+
+code do
+  content <<~'RUBY', size: 18, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/.*Context.new\(@io\)/)
+    class ObjectContext
+      def name(n) = @io << "/#{n}"
+      def dict(&block)
+        @io << "<< "
+        DictContext.new(@io).instance_exec(&block)
+        @io << " >>"
+      end
+    end
+    class PDFWriter
+      def obj(&block)
+        @io << "obj "
+        ObjectContext.new(@io).instance_exec(&block)
+        @io << " endobj"
+      end
+    end
+  RUBY
+end
+
+code do
+  content <<~'RUBY', size: 16.5, line_height: 16, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/@io.offset|offset.to_s.rjust\(10, "0"\)/)
     class PDFWriter
       def initialize(io)
         @io = OffsetIO.new(io)
@@ -340,16 +419,54 @@ code do
       def obj(&block)
         @xref << @io.offset
         @io << "#{@xref.size - 1} 0 obj "
-        instance_exec(&block)
+        ObjectContext.new(@io).instance_exec(&block)
         @io << " endobj"
         @xref.size - 1
       end
       def xref
         @io << "xref\n" << "0 #{@xref.size}\n"
         @xref.each do |offset|
-          @io << "#{offset.to_s.rjust(10, "0")} 0 n\n"
+          @io << "#{offset.to_s.rjust(10, "0")} 0 n \n"
         end
       end
+    end
+  RUBY
+  raw do
+    path [300, 260], [500, 280]
+    stroke_width 2
+    stroke_color 0xe06666
+    stroke
+    color 0xe06666
+    text "バイト位置を保存", x: 510, y: 280, size: 20
+
+    path [300, 95], [500, 55]
+    stroke
+    text "まとめて出力", x: 510, y: 55, size: 20
+  end
+end
+
+code do
+  content <<~'PDF', style: JotPDF::Tokyork12::Highlighter::PDF
+    5 0 obj << /Length 46 >>
+    stream
+    BT
+    /F1 60 Tf
+    190 180 Td
+    (Hello, World!) Tj
+    ET
+    endstream
+    endobj
+  PDF
+end
+
+code do
+  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
+    content_stream do
+      op("BT")
+      op("Tf") { name "Tf"; num 60 }
+      op("Td") { num 190; num 180 }
+      op("Tj") { str "Hello, World!" }
+      op("ET")
     end
   RUBY
 end
@@ -377,7 +494,7 @@ code do
 end
 
 code do
-  content <<~'PDF', style: JotPDF::Tokyork12::Highlighter::PDF.and(/(6 0 R|6 0 obj 46)/ => { color: 0xe06666, bold: true })
+  content <<~'PDF', style: JotPDF::Tokyork12::Highlighter::PDF.highlight(/(6 0 R|6 0 obj 46)/)
     5 0 obj << /Length 6 0 R >>
     stream
     BT
@@ -392,28 +509,85 @@ code do
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby.and(/(dict|name|ref)/ => { color: 0xe06666, bold: true })
+  content <<~'RUBY', size: 18, line_height: 21, style: JotPDF::Tokyork12::Highlighter::Ruby
+    len_obj = alloc_obj
+    size = nil
+    obj do
+      dict { entry("Length").of_ref len_obj }
+      size = content_stream do
+        op("BT")
+        op("Tf") { name "Tf"; num 60 }
+        op("Td") { num 190; num 180 }
+        op("Tj") { str "Hello, World!" }
+        op("ET")
+      end
+    end
+    obj(len_obj).of_num size
+  RUBY
+end
+
+code do
+  content <<~'RUBY', size: 18, line_height: 21, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/=> size/)
+    len_obj = alloc_obj
+    size = nil
+    obj do
+      dict { entry("Length").of_ref len_obj }
+      content_stream do
+        op("BT")
+        op("Tf") { name "Tf"; num 60 }
+        op("Td") { num 190; num 180 }
+        op("Tj") { str "Hello, World!" }
+        op("ET")
+      end => size
+    end
+    obj(len_obj).of_num size
+  RUBY
+end
+
+code do
+  content <<~'RUBY', size: 18, line_height: 20, style: JotPDF::Tokyork12::Highlighter::Ruby
+    header
+
+    pages_obj = alloc_obj
     obj do
       dict do
         entry("Type") { name "Catalog" }
-        entry("Pages") { ref :pages }
+        entry("Pages") { ref pages_obj }
+      end
+    end
+
+    (.. other object definitions ..)
+
+    xref
+    trailer do
+      entry("Root") { ref catalog_obj }
+    end
+  RUBY
+end
+
+code do
+  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/(dict|name|ref)/)
+    obj do
+      dict do
+        entry("Type") { name "Catalog" }
+        entry("Pages") { ref pages_obj }
       end
     end
   RUBY
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby.and(/(of_dict|of_name|of_ref)/ => { color: 0xe06666, bold: true })
+  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/(of_dict|of_name|of_ref)/)
     obj.of_dict do
       entry("Type").of_name "Catalog"
-      entry("Pages").of_ref :pages
+      entry("Pages").of_ref pages_obj
     end
   RUBY
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby, size: 12, line_height: 11, x: 25, y: 380
-    PDFWrite::Core.write($stdout) do
+  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby, size: 12, line_height: 11.5, x: 25, y: 380
+    JotPDF::Core.write($stdout) do
       header
       alloc_obj => pages_obj; alloc_obj => contents_obj
       obj.of_dict { entry("Type").of_name "Catalog"; entry("Pages").of_ref pages_obj }
@@ -424,12 +598,12 @@ code do
       } } } => resources_obj
       obj.of_dict do
         entry("Type").of_name "Page"; entry("Parent").of_ref pages_obj
-        entry("MediaBox").of_array { int 0; int 0; int 612; int 792 }
+        entry("MediaBox").of_array { num 0; num 0; num 612; num 792 }
         entry("Resources").of_ref resources_obj; entry("Contents").of_ref contents_obj
       end => page_obj
       obj(pages_obj).of_dict do
         entry("Type").of_name "Pages"; entry("Kids").of_array { ref page_obj }
-        entry("Count").of_int 1
+        entry("Count").of_num 1
       end
 
       alloc_obj => length_obj
@@ -437,15 +611,14 @@ code do
       obj(contents_obj) do
         dict { entry("Length").of_ref length_obj }
         content_stream do
-          op("BT"); op("Tf") { name "F1"; int 24 }
-          op("Td") { int 100; int 100 }; op("Tj") { str "Hello, World" }; op("ET")
+          op("BT"); op("Tf") { name "F1"; num 24 }
+          op("Td") { num 100; num 100 }; op("Tj") { str "Hello, World" }; op("ET")
         end => stream_size
       end
-      obj(length_obj).of_int stream_size
+      obj(length_obj).of_num stream_size
 
       xref
-      trailer { entry("Size").of_int objects.size; entry("Root").of_ref catalog_obj }
-      startxref
+      trailer { entry("Root").of_ref catalog_obj }
     end
   RUBY
 end
@@ -459,31 +632,26 @@ content do
 end
 
 code do
-  content <<~'RUBY', size: 16.5, style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
     class PageContext
       def initialize(ctxt) = @ctxt = ctxt
       def text(x:, y:, size:, text:)
         @ctxt.instance_exec do
-          op("BT"); op("Tf") { name "F1"; int size }
-          op("Td") { int x; int y }
+          op("BT"); op("Tf") { name "F1"; num size }
+          op("Td") { num x; num y }
           op("Tj") { str text }; op("ET")
         end
       end
-    end
-
-    # use place
-    content_stream do
-      PageContext.new(self).instance_exec(&block)
     end
   RUBY
 end
 
 code do
   content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
-    PDFWrite::Document.write($stdout) do
+    JotPDF::Document.write($stdout) do
       10.times do |i|
         page width: 720, height: 405 do
-          text x: 190, y: 180, size: 60, "#{i}th page"
+          text "#{i}th page", x: 190, y: 180, size: 60
         end
       end
     end
@@ -509,7 +677,7 @@ empty do
     text x: 150, y: 100, size: 17 do
       color 0x000000
       show "今日のライブラリ: "
-      color 0x00b894; show "https://github.com/coord-e/pdfwrite"
+      color 0x00b894; show "https://github.com/coord-e/jot_pdf"
     end
 
     text x: 330, y: 50, size: 15 do
