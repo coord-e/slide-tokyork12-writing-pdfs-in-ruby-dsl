@@ -48,7 +48,7 @@ content do
     item "Ruby 歴はだいたい 3 年ぐらい"
   end
   raw do
-    image "Icon", x: 500, y: 80, width: icon_image.width * 0.3, height: icon_image.height * 0.3
+    image "Icon", x: 500, y: 80, width: icon_image.width * 0.5, height: icon_image.height * 0.5
   end
 end
 
@@ -267,7 +267,7 @@ section_header do
     item "消費メモリが書くドキュメントの大きさに依存しない\n（ストリーミング）"
   end
   raw do
-    image "Ruby", x: 120, y: 180, width: ruby_image.width * 0.07, height: ruby_image.height * 0.07
+    image "Ruby", x: 120, y: 180, width: ruby_image.width * 0.5, height: ruby_image.height * 0.5
   end
 end
 
@@ -663,8 +663,8 @@ empty do
     image "PagePDFScreenshot",
           x: 160,
           y: 60,
-          width: page_pdf_screenshot_image.width * 0.35,
-          height: page_pdf_screenshot_image.height * 0.35
+          width: page_pdf_screenshot_image.width * 0.5,
+          height: page_pdf_screenshot_image.height * 0.5
   end
 end
 
@@ -687,6 +687,6 @@ empty do
       show "@coord_e"
     end
 
-    image "Icon", x: 270, y: 20, width: icon_image.width * 0.1, height: icon_image.height * 0.1
+    image "Icon", x: 270, y: 20, width: icon_image.width * 0.17, height: icon_image.height * 0.17
   end
 end
