@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 gem "chunky_png"
-gem "jot_pdf", "0.1.0", git: "https://github.com/coord-e/jot_pdf.git"
+gem "jot_pdf", "0.1.0"
 gem "jot_pdf-tokyork12", path: "./jot_pdf-tokyork12"
 
 # https://github.com/prawnpdf/ttfunk/issues/102

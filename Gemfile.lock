@@ -1,11 +1,3 @@
-GIT
-  remote: https://github.com/coord-e/jot_pdf.git
-  revision: 47c76c640d6a3c611602e30056e90c62b09fa345
-  specs:
-    jot_pdf (0.1.0)
-      docile (~> 1.0)
-      ttfunk (~> 1.0)
-
 PATH
   remote: jot_pdf-tokyork12
   specs:
@@ -18,6 +10,9 @@ GEM
     ast (2.4.2)
     chunky_png (1.4.0)
     docile (1.4.1)
+    jot_pdf (0.1.0)
+      docile (~> 1.0)
+      ttfunk (~> 1.0)
     json (2.9.1)
     language_server-protocol (3.17.0.3)
     parallel (1.26.3)
@@ -52,7 +47,7 @@ PLATFORMS
 
 DEPENDENCIES
   chunky_png
-  jot_pdf (= 0.1.0)!
+  jot_pdf (= 0.1.0)
   jot_pdf-tokyork12!
   rake
   rubocop
