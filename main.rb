@@ -261,6 +261,13 @@ end
 
 section_header do
   title "が PDF を書くのは？", x_adjust: 40, font: "NotoSansJP-Bold"
+  raw do
+    image "Ruby", x: 120, y: 180, width: ruby_image.width * 0.5, height: ruby_image.height * 0.5
+  end
+end
+
+section_header do
+  title "が PDF を書くのは？", x_adjust: 40, font: "NotoSansJP-Bold"
   list x: 200, y: 100, size: 15, line_height: 20 do
     itemheader "ゲーム性を出すためのレギュレーション:"
     item "出力した PDF が Adobe Acrobat Reader で読める"
@@ -302,34 +309,44 @@ code do
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby
     def obj
       @io << "obj "
       … # ??
       @io << " endobj"
     end
   RUBY
-  list x: 400, y: 150, size: 25, color: 0xffffff do
+end
+
+code do
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby
+    def obj
+      @io << "obj "
+      … # ??
+      @io << " endobj"
+    end
+  RUBY
+  list x: 350, y: 150, size: 25, color: 0xffffff do
     item "データを受け取る？"
     item "コールバック関数？"
   end
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby
     def obj
       @io << "obj "
       yield
       @io << " endobj"
     end
   RUBY
-  list x: 400, y: 150, size: 25, color: 0xffffff do
+  list x: 350, y: 150, size: 25, color: 0xffffff do
     item "Ruby にはブロックがある"
   end
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby
     def dict
       @io << "<< "
       yield
@@ -337,18 +354,18 @@ code do
     end
 
     def entry(key)
-      @io << "/#{key} "
+      @io << "/\#{key} "
       yield
     end
 
     def name(n)
-      @io << "/#{n}"
+      @io << "/\#{n}"
     end
   RUBY
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby
     obj do
       dict do
         entry("Type") { name "Catalog" }
@@ -358,7 +375,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', size: 18, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/instance_exec\(&block\)/)
+  content <<~RUBY, size: 18, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/instance_exec\(&block\)/)
     class PDFWriter
       def initialize(io)
         @io = OffsetIO.new(io)
@@ -377,7 +394,19 @@ code do
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/obj { str "invalid!" }/)
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/obj { str "invalid!" }/)
+    PDF($stdout) do
+      obj do
+        dict do
+          entry("Type") { name "Catalog" }
+        end
+      end
+    end
+  RUBY
+end
+
+code do
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/obj { str "invalid!" }/)
     PDF($stdout) do
       obj do
         dict do
@@ -390,9 +419,9 @@ code do
 end
 
 code do
-  content <<~'RUBY', size: 18, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/.*Context.new\(@io\)/)
+  content <<~RUBY, size: 18, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/.*Context.new\(@io\)/)
     class ObjectContext
-      def name(n) = @io << "/#{n}"
+      def name(n) = @io << "/\#{n}"
       def dict(&block)
         @io << "<< "
         DictContext.new(@io).instance_exec(&block)
@@ -410,7 +439,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', size: 16.5, line_height: 16, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/@io.offset|offset.to_s.rjust\(10, "0"\)/)
+  content <<~RUBY, size: 16.5, line_height: 16, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/@io.offset|offset.to_s.rjust\(10, "0"\)/)
     class PDFWriter
       def initialize(io)
         @io = OffsetIO.new(io)
@@ -418,15 +447,15 @@ code do
       end
       def obj(&block)
         @xref << @io.offset
-        @io << "#{@xref.size - 1} 0 obj "
+        @io << "\#{@xref.size - 1} 0 obj "
         ObjectContext.new(@io).instance_exec(&block)
         @io << " endobj"
         @xref.size - 1
       end
       def xref
-        @io << "xref\n" << "0 #{@xref.size}\n"
+        @io << "xref\n" << "0 \#{@xref.size}\n"
         @xref.each do |offset|
-          @io << "#{offset.to_s.rjust(10, "0")} 0 n \n"
+          @io << "\#{offset.to_s.rjust(10, "0")} 0 n \n"
         end
       end
     end
@@ -460,7 +489,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby
     content_stream do
       op("BT")
       op("Tf") { name "Tf"; num 60 }
@@ -509,7 +538,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', size: 18, line_height: 21, style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, size: 18, line_height: 21, style: JotPDF::Tokyork12::Highlighter::Ruby
     len_obj = alloc_obj
     size = nil
     obj do
@@ -527,7 +556,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', size: 18, line_height: 21, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/=> size/)
+  content <<~RUBY, size: 18, line_height: 21, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/=> size/)
     len_obj = alloc_obj
     size = nil
     obj do
@@ -545,16 +574,16 @@ code do
 end
 
 code do
-  content <<~'RUBY', size: 18, line_height: 20, style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, size: 18, line_height: 20, style: JotPDF::Tokyork12::Highlighter::Ruby
     header
 
-    pages_obj = alloc_obj
+    alloc_obj => pages_obj
     obj do
       dict do
         entry("Type") { name "Catalog" }
         entry("Pages") { ref pages_obj }
       end
-    end
+    end => catalog_obj
 
     (.. other object definitions ..)
 
@@ -566,7 +595,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/(dict|name|ref)/)
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/(dict|name|ref)/)
     obj do
       dict do
         entry("Type") { name "Catalog" }
@@ -577,7 +606,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/(of_dict|of_name|of_ref)/)
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby.highlight(/(of_dict|of_name|of_ref)/)
     obj.of_dict do
       entry("Type").of_name "Catalog"
       entry("Pages").of_ref pages_obj
@@ -586,7 +615,7 @@ code do
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby, size: 12, line_height: 11.5, x: 25, y: 380
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby, size: 12, line_height: 11.5, x: 25, y: 380
     JotPDF::Core.write($stdout) do
       header
       alloc_obj => pages_obj; alloc_obj => contents_obj
@@ -623,16 +652,8 @@ code do
   RUBY
 end
 
-content do
-  title "この API のよいところ"
-  list do
-    item "疎結合な拡張性"
-    item "ゼロフットプリント"
-  end
-end
-
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby
     class PageContext
       def initialize(ctxt) = @ctxt = ctxt
       def text(x:, y:, size:, text:)
@@ -647,11 +668,11 @@ code do
 end
 
 code do
-  content <<~'RUBY', style: JotPDF::Tokyork12::Highlighter::Ruby
+  content <<~RUBY, style: JotPDF::Tokyork12::Highlighter::Ruby
     JotPDF::Document.write($stdout) do
       10.times do |i|
         page width: 720, height: 405 do
-          text "#{i}th page", x: 190, y: 180, size: 60
+          text "\#{i}th page", x: 190, y: 180, size: 60
         end
       end
     end
@@ -671,7 +692,7 @@ end
 empty do
   raw do
     text x: 100, y: 200, size: 30 do
-      color 0x00b894; show "https://tokyork12.coord-e.dev/slide.rb"
+      color 0x00b894; show "https://jotpdf.coord-e.dev/tokyork12"
     end
 
     text x: 150, y: 100, size: 17 do
